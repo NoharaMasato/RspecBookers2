@@ -55,8 +55,13 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 3.6.0'
+  gem "factory_bot_rails"
+  gem 'rspec-parameterized'
+  gem 'faker' #ランダム値の生成
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
