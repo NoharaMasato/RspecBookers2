@@ -25,7 +25,7 @@ FactoryBot.define do
 
     trait :create_with_books do
       after(:create) do |user|
-        create_list(:book, rand(1..3), user: user)
+        create_list(:book, 3, user: user)
       end
     end 
   end
