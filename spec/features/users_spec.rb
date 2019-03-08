@@ -45,6 +45,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         visit user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction
+        expect(page).to have_link "",href: "/users/#{@user1.id}/edit"
 
         @user1.books.each do |book|
           expect(page).to have_link book.title,href: "/books/#{book.id}"
@@ -64,7 +65,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
       end
     end
 
-    feature "userの更新" do
+    feature "自分のプロフィールの更新" do
       before do
         visit edit_user_path(@user1)
         name_field = all("input")[0]
@@ -90,9 +91,15 @@ RSpec.feature "Userに関するテスト", type: :feature do
       end
     end
 
+    feature "他人のプロフィールの更新" do
+      scenario "ページに行けず、ルートページにリダイレクトされるか" do
+        visit edit_user_path(@user2)
+        expect(page).to have_current_path "/"
+      end
+    end
+
     feature "有効ではないuserの更新" do
       before do
-        user = @user1
         visit edit_user_path(@user1)
         name_field = all("input")[0]
         name_field.set(nil)

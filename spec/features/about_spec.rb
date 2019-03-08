@@ -65,14 +65,16 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
       login(@user)
       visit root_path
       expect(page).to have_link "",href: "/users/#{@user.id}"
-      expect(page).to have_link "",href: "/books"
       expect(page).to have_link "",href: "/users"
+      expect(page).to have_link "",href: "/books"
+      expect(page).to have_link "",href: "/users/sign_out"
     end
     scenario "ログアウト時" do
       visit root_path
+      expect(page).to have_link "",href: "/"
+      expect(page).to have_link "",href: "/home/about" #実際このルートじゃなくてもいい気がする
       expect(page).to have_link "",href: "/users/sign_in"
       expect(page).to have_link "",href: "/users/sign_up"
-      expect(page).to have_link "",href: "/home/about"
     end
   end
 end

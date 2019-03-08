@@ -15,18 +15,18 @@ FactoryBot.define do
       name {}
     end
 
-    trait :no_introduction do
-      introduction {}
-    end
-
     trait :introduction_length_exceed_max do
       introduction {Faker::Lorem.characters(51)}
+    end
+
+    trait :create_with_image do
+      avatar_image {Refile::FileDouble.new("dummy", "logo.png", content_type: "image/png")}
     end
 
     trait :create_with_books do
       after(:create) do |user|
         create_list(:book, 3, user: user)
       end
-    end 
+    end
   end
 end

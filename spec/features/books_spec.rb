@@ -117,7 +117,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
     end
 
-    feature "bookの更新" do
+    feature "自分のbookの更新" do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
@@ -138,6 +138,13 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       scenario "サクセスメッセージが表示されているか" do
         all("input")[-1].click
         expect(page).to have_content "successfully"
+      end
+    end
+
+    feature "他人のbookの更新" do
+      scenario "ページに行けず、ルートページにリダイレクトされるか" do
+        visit edit_book_path(@user2.books.first)
+        expect(page).to have_current_path "/"
       end
     end
 
