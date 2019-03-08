@@ -72,7 +72,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         name_field.set("updated_name")
         introduction_field.set("updated_inttroduction")
       end
-      scenario "本が更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
+      scenario "userが更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
         all("input")[-1].click
         expect(page).to have_content "updated_name"
         expect(page).to have_content "updated_inttroduction"
@@ -84,6 +84,9 @@ RSpec.feature "Userに関するテスト", type: :feature do
       scenario "サクセスメッセージが表示されているか" do
         all("input")[-1].click
         expect(page).to have_content "successfully"
+      end
+      scenario "画像が投稿できるか" do
+        # expect(page).to have_content "successfully"
       end
     end
 
@@ -98,7 +101,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         all("input")[-1].click
         expect(page).to have_current_path "/users/#{@user1.id}"
       end
-      scenario "エラーが出るか" do
+      scenario "エラーメッセージが出るか" do
         all("input")[-1].click
         expect(page).to have_content "Name can't be blank"
       end

@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 RSpec.feature "Bookに関するテスト", type: :feature do
   before do
@@ -149,7 +148,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         title_field = all("input")[0]
         title_field.set(nil)
       end
-      scenario "リダイレクト先が正しいか" do
+      scenario "リダイレクト先は正しいか" do
         all("input")[-1].click
         expect(page).to have_current_path "/books/#{@user1.books.first.id}"
       end
@@ -170,7 +169,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
           all("a[data-method='delete']")[-1].click #データメソッドがdeleteのaタグはログアウトと削除ボタンの２つある 
         }.to change(@user1.books, :count).by(-1)
       end
-      scenario "本が削除されているか" do
+      scenario "リダイレクト先が正しいか" do
         all("a[data-method='delete']")[-1].click
         expect(page).to have_current_path "/books"
       end
