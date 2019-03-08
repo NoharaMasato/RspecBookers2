@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe User, "model", type: :model do
   describe 'アソシエーション' do
     it "bookを複数持っている" do
-      is_expected.to have_many(:books).dependent(:destroy) #dependentがいるか微妙
+      is_expected.to have_many(:books)
     end
   end
 
