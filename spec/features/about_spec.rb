@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 # config.active_support.deprecation = :silenceをconfigのtest.rbに付け加える必要がある
 RSpec.feature "Homeページ、サインアップ、ログイン、ログアウトに関するテスト", type: :feature do
   before do
@@ -38,7 +37,6 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     end
     scenario "正しくログインして、リダイレクトされているか" do #正しくログインできていることと、リダイレクト先が合っていることを別々に調べたい
       all("input")[-1].click
-      binding.pry
       expect(page).to have_current_path "/users/#{@user.id}"
     end
     scenario "サクセスメッセージは正しく表示されるか" do
