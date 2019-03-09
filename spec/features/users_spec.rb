@@ -92,9 +92,9 @@ RSpec.feature "Userに関するテスト", type: :feature do
     end
 
     feature "他人のプロフィールの更新" do
-      scenario "ページに行けず、ルートページにリダイレクトされるか" do
+      scenario "ページに行けず、マイページにリダイレクトされるか" do
         visit edit_user_path(@user2)
-        expect(page).to have_current_path "/"
+        expect(page).to have_current_path user_path(@user1)
       end
     end
 
