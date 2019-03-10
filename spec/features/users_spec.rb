@@ -89,10 +89,10 @@ RSpec.feature "Userに関するテスト", type: :feature do
       end
       scenario "サクセスメッセージが表示されているか" do
         all("input")[-1].click
-        expect(page).to have_content "successfully"
+        expect(page).to have_content "successfullyddd"
       end
       scenario "画像が投稿できるか" do
-        # expect(page).to have_content "successfully"
+        # キャピパラで画像を投稿するというのがあるのか
       end
     end
 
