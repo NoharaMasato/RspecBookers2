@@ -44,6 +44,11 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content @user1.introduction
       end
 
+      scenario "bookの一覧ページでテーブルタグを使用しているか" do
+        visit books_path
+        expect(page).to have_selector "table"
+      end
+
       scenario "自分のbookの詳細ページへの表示内容とリンク" do
         book = @user1.books.first
         visit book_path(book)

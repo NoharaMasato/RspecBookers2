@@ -41,7 +41,12 @@ RSpec.feature "Userに関するテスト", type: :feature do
         expect(page).to have_content @user2.name
       end
 
-      scenario "自分の詳細ページへの表示内容とリンク" do
+      scenario "userの一覧ページでテーブルタグを使用しているか" do
+        visit users_path
+        expect(page).to have_selector "table"
+      end
+
+      scenario "自分の詳細ページの表示内容とリンク" do
         visit user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction
@@ -53,7 +58,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         end
       end
 
-      scenario "他人の詳細ページへの表示内容とリンク" do
+      scenario "他人の詳細ページの表示内容とリンク" do
         visit user_path(@user2)
         expect(page).to have_content @user2.name
         expect(page).to have_content @user2.introduction
