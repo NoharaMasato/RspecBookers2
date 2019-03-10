@@ -11,17 +11,17 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "リダイレクトの確認" do
       scenario "bookの一覧ページ" do
         visit books_path
-        expect(page).to have_current_path "/users/sign_in"
+        expect(page).to have_current_path new_user_session_path
       end
 
       scenario "bookの詳細ページ" do
         visit book_path(@user1.books.first)
-        expect(page).to have_current_path "/users/sign_in"
+        expect(page).to have_current_path new_user_session_path
       end
 
       scenario "bookの編集ページ" do
         visit edit_book_path(@user1.books.first)
-        expect(page).to have_current_path "/users/sign_in"
+        expect(page).to have_current_path new_user_session_path
       end
     end
   end
@@ -36,10 +36,10 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         visit books_path
         books = @user1.books + @user2.books
         books.each do |book|
-          expect(page).to have_link book.title,href: "/books/#{book.id}"
+          expect(page).to have_link book.title,href: book_path(book)
           expect(page).to have_content book.body
         end
-        expect(page).to have_link "",href: "/users/#{@user1.id}/edit"
+        expect(page).to have_link "",href: edit_user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction
       end
@@ -49,10 +49,10 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         visit book_path(book)
         expect(page).to have_content book.title
         expect(page).to have_content book.body
-        expect(page).to have_link "",href: "/books/#{book.id}/edit"
-        expect(page).to have_link "#{@user1.name}",href: "/users/#{@user1.id}"
+        expect(page).to have_link "",href: edit_book_path(book)
+        expect(page).to have_link "#{@user1.name}",href: user_path(@user1)
 
-        expect(page).to have_link "",href: "/users/#{@user1.id}/edit"
+        expect(page).to have_link "",href: edit_user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction
       end
@@ -62,8 +62,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         visit book_path(book)
         expect(page).to have_content book.title
         expect(page).to have_content book.body
-        expect(page).to_not have_link "",href: "/books/#{book.id}/edit"
-        expect(page).to have_link "#{@user2.name}",href: "/users/#{@user2.id}"
+        expect(page).to_not have_link "",href: edit_book_path(book)
+        expect(page).to have_link "#{@user2.name}",href: user_path(@user2)
 
         # expect(page).to_not have_link "",href: "/users/#{@user2.id}/edit" 他人の詳細ページでボタンは存在してしまう
         expect(page).to have_content @user2.name
@@ -109,7 +109,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "リダイレクト先は正しいか" do
         all("input")[-1].click
-        expect(page).to have_current_path "/books"
+        expect(page).to have_current_path books_path
       end
       scenario "エラーメッセージは正しく表示されるか" do
         all("input")[-1].click
@@ -133,7 +133,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "リダイレクト先は正しいか" do
         all("input")[-1].click
-        expect(page).to have_current_path "/books/#{@user1.books.first.id}"
+        expect(page).to have_current_path book_path(@user1.books.first)
       end
       scenario "サクセスメッセージが表示されているか" do
         all("input")[-1].click
@@ -144,7 +144,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "他人のbookの更新" do
       scenario "ページに行けず、book一覧ページにリダイレクトされるか" do
         visit edit_book_path(@user2.books.first)
-        expect(page).to have_current_path "/books"
+        expect(page).to have_current_path books_path
       end
     end
 
@@ -157,7 +157,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "リダイレクト先は正しいか" do
         all("input")[-1].click
-        expect(page).to have_current_path "/books/#{@user1.books.first.id}"
+        expect(page).to have_current_path book_path(@user1.books.first)
       end
       scenario "エラーが出るか" do
         all("input")[-1].click
@@ -178,7 +178,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "リダイレクト先が正しいか" do
         all("a[data-method='delete']")[-1].click
-        expect(page).to have_current_path "/books"
+        expect(page).to have_current_path books_path
       end
     end
   end

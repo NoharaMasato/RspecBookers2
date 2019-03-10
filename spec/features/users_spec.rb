@@ -11,17 +11,17 @@ RSpec.feature "Userに関するテスト", type: :feature do
     feature "リダイレクトの確認" do
       scenario "userの一覧ページ" do
         visit users_path
-        expect(page).to have_current_path "/users/sign_in"
+        expect(page).to have_current_path new_user_session_path
       end
 
       scenario "userの詳細ページ" do
         visit user_path(@user1)
-        expect(page).to have_current_path "/users/sign_in"
+        expect(page).to have_current_path new_user_session_path
       end
 
       scenario "userの編集ページ" do
         visit edit_user_path(@user1)
-        expect(page).to have_current_path "/users/sign_in"
+        expect(page).to have_current_path new_user_session_path
       end
     end
   end
@@ -34,10 +34,10 @@ RSpec.feature "Userに関するテスト", type: :feature do
     feature "表示内容とリンクの確認" do
       scenario "userの一覧ページの表示内容とリンク" do
         visit users_path
-        expect(page).to have_link "",href: "/users/#{@user1.id}"
+        expect(page).to have_link "",href: user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction
-        expect(page).to have_link "",href: "/users/#{@user2.id}"
+        expect(page).to have_link "",href: user_path(@user2)
         expect(page).to have_content @user2.name
       end
 
@@ -45,10 +45,10 @@ RSpec.feature "Userに関するテスト", type: :feature do
         visit user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction
-        expect(page).to have_link "",href: "/users/#{@user1.id}/edit"
+        expect(page).to have_link "",href: edit_user_path(@user1)
 
         @user1.books.each do |book|
-          expect(page).to have_link book.title,href: "/books/#{book.id}"
+          expect(page).to have_link book.title,href: book_path(book)
           expect(page).to have_content book.body
         end
       end
@@ -59,7 +59,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         expect(page).to have_content @user2.introduction
 
         @user2.books.each do |book|
-          expect(page).to have_link book.title,href: "/books/#{book.id}"
+          expect(page).to have_link book.title,href: book_path(book)
           expect(page).to have_content book.body
         end
       end
@@ -80,7 +80,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
       end
       scenario "リダイレクト先は正しいか" do
         all("input")[-1].click
-        expect(page).to have_current_path "/users/#{@user1.id}"
+        expect(page).to have_current_path user_path(@user1)
       end
       scenario "サクセスメッセージが表示されているか" do
         all("input")[-1].click
@@ -106,7 +106,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
       end
       scenario "リダイレクト先が正しいか" do
         all("input")[-1].click
-        expect(page).to have_current_path "/users/#{@user1.id}"
+        expect(page).to have_current_path user_path(@user1)
       end
       scenario "エラーメッセージが出るか" do
         all("input")[-1].click
