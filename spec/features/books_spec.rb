@@ -71,9 +71,34 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
     end
 
-    feature "bookを投稿" do
+    feature "マイページからbookを投稿" do
       before do
         visit user_path(@user1)
+        title_field = all("input")[0]
+        body_field = all("textarea")[0]
+        title_field.set("title_a")
+        body_field.set("body_b")
+      end
+      scenario "正しく保存できているか" do
+        expect {
+          all("input")[-1].click
+        }.to change(@user1.books, :count).by(1)
+      end
+      scenario "リダイレクト先は正しいか" do
+        all("input")[-1].click
+        expect(current_path).to match(Regexp.new("/books/[0-9]+$")) #何番のブックとして保存するかわからないため、正規表現を使用
+        expect(page).to have_content "title_a"
+        expect(page).to have_content "body_b"
+      end
+      scenario "サクセスメッセージは正しく表示されるか" do
+        all("input")[-1].click
+        expect(page).to have_content "successfully"
+      end
+    end
+
+    feature "book一覧ページからbookを投稿" do
+      before do
+        visit books_path
         title_field = all("input")[0]
         body_field = all("textarea")[0]
         title_field.set("title_a")
