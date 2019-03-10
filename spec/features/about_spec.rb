@@ -9,38 +9,38 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
   feature "サインアップ" do
     before do
       visit new_user_registration_path
-      all("input")[0].set("name_a")
-      all("input")[1].set("aa@aa")
-      all("input")[2].set("pppppp")
-      all("input")[3].set("pppppp")
+      fill_in 'user_name', with: 'name_a'
+      fill_in 'user_email', with: 'aa@aa'
+      fill_in 'user_password', with: 'pppppp'
+      fill_in 'user_password_confirmation', with: 'pppppp'
     end
     scenario "正しくサインアップできているか" do
       expect {
-        all("input")[-1].click
+        find("input[name='commit']").click
       }.to change(User, :count).by(1)
     end
     scenario "リダイレクト先は正しいか" do
-      all("input")[-1].click
+      find("input[name='commit']").click
       expect(current_path).to match(Regexp.new("/users/[0-9]+$")) #何番のuserとして保存するかわからないため、正規表現を使用
       expect(page).to have_content "name_a"
     end
     scenario "サクセスメッセージは正しく表示されるか" do
-      all("input")[-1].click
+      find("input[name='commit']").click
       expect(page).to have_content "successfully"
     end
   end
   feature "ログイン" do
     before do
       visit new_user_session_path
-      all("input")[0].set(@user.name)
-      all("input")[1].set(@user.password)
+      fill_in 'user_name', with: @user.name
+      fill_in 'user_password', with: @user.password
     end
     scenario "正しくログインして、リダイレクトされているか" do #正しくログインできていることと、リダイレクト先が合っていることを別々に調べたい
-      all("input")[-1].click
+      find("input[name='commit']").click
       expect(page).to have_current_path user_path(@user)
     end
     scenario "サクセスメッセージは正しく表示されるか" do
-      all("input")[-1].click
+      find("input[name='commit']").click
       expect(page).to have_content "successfully"
     end
   end

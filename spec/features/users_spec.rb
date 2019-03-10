@@ -36,7 +36,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         visit users_path
         expect(page).to have_link "",href: user_path(@user1)
         expect(page).to have_content @user1.name
-        expect(page).to have_content @user1.introduction
+        expect(page).to have_content @user1.introduction #introductionはログインしているuserのみ表示される
         expect(page).to have_link "",href: user_path(@user2)
         expect(page).to have_content @user2.name
       end
@@ -73,22 +73,18 @@ RSpec.feature "Userに関するテスト", type: :feature do
     feature "自分のプロフィールの更新" do
       before do
         visit edit_user_path(@user1)
-        name_field = all("input")[0]
-        introduction_field = all("textarea")[0]
-        name_field.set("updated_name")
-        introduction_field.set("updated_inttroduction")
+        fill_in 'user_name', with: 'updated_name'
+        fill_in 'user_introduction', with: 'updated_inttroduction'
+        find("input[name='commit']").click
       end
       scenario "userが更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
-        all("input")[-1].click
         expect(page).to have_content "updated_name"
         expect(page).to have_content "updated_inttroduction"
       end
       scenario "リダイレクト先は正しいか" do
-        all("input")[-1].click
         expect(page).to have_current_path user_path(@user1)
       end
       scenario "サクセスメッセージが表示されているか" do
-        all("input")[-1].click
         expect(page).to have_content "successfully"
       end
       scenario "画像が投稿できるか" do
@@ -106,15 +102,13 @@ RSpec.feature "Userに関するテスト", type: :feature do
     feature "有効ではないuserの更新" do
       before do
         visit edit_user_path(@user1)
-        name_field = all("input")[0]
-        name_field.set(nil)
+        fill_in 'user_name', with: nil
+        find("input[name='commit']").click
       end
       scenario "リダイレクト先が正しいか" do
-        all("input")[-1].click
         expect(page).to have_current_path user_path(@user1)
       end
       scenario "エラーメッセージが出るか" do
-        all("input")[-1].click
         expect(page).to have_content "Name can't be blank"
       end
     end

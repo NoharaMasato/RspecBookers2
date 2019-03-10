@@ -55,7 +55,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content book.title
         expect(page).to have_content book.body
         expect(page).to have_link "",href: edit_book_path(book)
-        expect(page).to have_link "#{@user1.name}",href: user_path(@user1)
+        expect(page).to have_link @user1.name,href: user_path(@user1)
 
         expect(page).to have_link "",href: edit_user_path(@user1)
         expect(page).to have_content @user1.name
@@ -68,7 +68,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content book.title
         expect(page).to have_content book.body
         expect(page).to_not have_link "",href: edit_book_path(book)
-        expect(page).to have_link "#{@user2.name}",href: user_path(@user2)
+        expect(page).to have_link @user2.name,href: user_path(@user2)
 
         # expect(page).to_not have_link "",href: "/users/#{@user2.id}/edit" 他人の詳細ページでボタンは存在してしまう
         expect(page).to have_content @user2.name
@@ -79,24 +79,22 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "マイページからbookを投稿" do
       before do
         visit user_path(@user1)
-        title_field = all("input")[0]
-        body_field = all("textarea")[0]
-        title_field.set("title_a")
-        body_field.set("body_b")
+        fill_in 'book_title', with: 'title_a'
+        fill_in 'book_body', with: 'body_b'
       end
       scenario "正しく保存できているか" do
         expect {
-          all("input")[-1].click
+          find("input[name='commit']").click
         }.to change(@user1.books, :count).by(1)
       end
       scenario "リダイレクト先は正しいか" do
-        all("input")[-1].click
+        find("input[name='commit']").click
         expect(current_path).to match(Regexp.new("/books/[0-9]+$")) #何番のブックとして保存するかわからないため、正規表現を使用
         expect(page).to have_content "title_a"
         expect(page).to have_content "body_b"
       end
       scenario "サクセスメッセージは正しく表示されるか" do
-        all("input")[-1].click
+        find("input[name='commit']").click
         expect(page).to have_content "successfully"
       end
     end
@@ -104,14 +102,12 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "book一覧ページからbookを投稿" do
       before do
         visit books_path
-        title_field = all("input")[0]
-        body_field = all("textarea")[0]
-        title_field.set("title_c")
-        body_field.set("body_d")
+        fill_in 'book_title', with: 'title_c'
+        fill_in 'book_body', with: 'body_d'
       end
       scenario "正しく保存できているか" do
         expect {
-          all("input")[-1].click
+          find("input[name='commit']").click
         }.to change(@user1.books, :count).by(1)
       end
     end
@@ -119,20 +115,19 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "有効ではない内容のbookを投稿" do
       before do
         visit user_path(@user1)
-        title_field = all("input")[0]
-        title_field.set("title_a")
+        fill_in 'book_title', with: 'title_e'
       end
       scenario "保存されないか" do
         expect {
-          all("input")[-1].click
+          find("input[name='commit']").click
         }.to change(@user1.books, :count).by(0)
       end
       scenario "リダイレクト先は正しいか" do
-        all("input")[-1].click
+        find("input[name='commit']").click
         expect(page).to have_current_path books_path
       end
       scenario "エラーメッセージは正しく表示されるか" do
-        all("input")[-1].click
+        find("input[name='commit']").click
         expect(page).to have_content "Body can't be blank"
       end
     end
@@ -141,22 +136,18 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
-        title_field = all("input")[0]
-        body_field = all("textarea")[0]
-        title_field.set("update_title_a")
-        body_field.set("update_body_b")
+        fill_in 'book_title', with: 'update_title_a'
+        fill_in 'book_body', with: 'update_body_b'
+        find("input[name='commit']").click
       end
       scenario "本が更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
-        all("input")[-1].click
         expect(page).to have_content "update_title_a"
         expect(page).to have_content "update_body_b"
       end
       scenario "リダイレクト先は正しいか" do
-        all("input")[-1].click
         expect(page).to have_current_path book_path(@user1.books.first)
       end
       scenario "サクセスメッセージが表示されているか" do
-        all("input")[-1].click
         expect(page).to have_content "successfully"
       end
     end
@@ -172,15 +163,13 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
-        title_field = all("input")[0]
-        title_field.set(nil)
+        fill_in 'book_title', with: nil
+        find("input[name='commit']").click
       end
       scenario "リダイレクト先は正しいか" do
-        all("input")[-1].click
         expect(page).to have_current_path book_path(@user1.books.first)
       end
       scenario "エラーが出るか" do
-        all("input")[-1].click
         expect(page).to have_content "Title can't be blank"
       end
     end
@@ -193,21 +182,13 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "bookが削除されているか" do
         expect {
-          all("a[data-method='delete']")[-1].click #データメソッドがdeleteのaタグはログアウトと削除ボタンの２つある 
+          all("a[data-method='delete']")[-1].click #データメソッドがdeleteのaタグはログアウトと削除ボタンの２つある
         }.to change(@user1.books, :count).by(-1)
       end
       scenario "リダイレクト先が正しいか" do
-        all("a[data-method='delete']")[-1].click
+        all("a[data-method='delete']")[-1].click #データメソッドがdeleteのaタグはログアウトと削除ボタンの２つある
         expect(page).to have_current_path books_path
       end
     end
   end
 end
-
-
-
-
-
-
-
-
