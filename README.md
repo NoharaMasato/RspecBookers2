@@ -8,7 +8,7 @@ bash check.sh
 ディレクトリが野原のディレクトリにあっているため、自分で修正が必要
 
 ### 実行コマンド
-bundle exec rspec
+bundle exec rspec spec/ --format documentation
 
 ### 注意
 カラム名が違うとほとんどのテストに失敗してしまうが、このコマンドですべてのファイルの文字列を変更することができる
