@@ -174,7 +174,6 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
     end
 
-
     feature "bookの削除" do
       before do
         book = @user1.books.first

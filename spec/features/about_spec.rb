@@ -34,13 +34,12 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
       visit new_user_session_path
       fill_in 'user_name', with: @user.name
       fill_in 'user_password', with: @user.password
+      find("input[name='commit']").click
     end
     scenario "正しくログインして、リダイレクトされているか" do #正しくログインできていることと、リダイレクト先が合っていることを別々に調べたい
-      find("input[name='commit']").click
       expect(page).to have_current_path user_path(@user)
     end
     scenario "サクセスメッセージは正しく表示されるか" do
-      find("input[name='commit']").click
       expect(page).to have_content "successfully"
     end
   end
@@ -49,13 +48,12 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     before do
       login(@user)
       visit user_path(@user)
+      click_on "logout"
     end
     scenario "正しくログアウトして、リダイレクトされているか" do
-      click_on "logout"
       expect(page).to have_current_path "/"
     end
     scenario "サクセスメッセージは正しく表示されるか" do
-      click_on "logout"
       expect(page).to have_content "successfully"
     end
   end
