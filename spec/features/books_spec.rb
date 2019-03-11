@@ -8,7 +8,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     create_list(:book, 3, user_id: @user2.id)
   end
   feature "ログインしていない状態で" do
-    feature "リダイレクトの確認" do
+    feature "リダイレクト先の確認" do
       scenario "bookの一覧ページ" do
         visit books_path
         expect(page).to have_current_path new_user_session_path
@@ -93,7 +93,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content "title_a"
         expect(page).to have_content "body_b"
       end
-      scenario "サクセスメッセージは正しく表示されるか" do
+      scenario "サクセスメッセージが表示されるか" do
         find("input[name='commit']").click
         expect(page).to have_content "successfully"
       end
@@ -126,7 +126,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         find("input[name='commit']").click
         expect(page).to have_current_path books_path
       end
-      scenario "エラーメッセージは正しく表示されるか" do
+      scenario "エラーメッセージが表示されるか" do
         find("input[name='commit']").click
         expect(page).to have_content "Body can't be blank"
       end
@@ -147,7 +147,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       scenario "リダイレクト先は正しいか" do
         expect(page).to have_current_path book_path(@user1.books.first)
       end
-      scenario "サクセスメッセージが表示されているか" do
+      scenario "サクセスメッセージが表示されるか" do
         expect(page).to have_content "successfully"
       end
     end
@@ -169,7 +169,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       scenario "リダイレクト先は正しいか" do
         expect(page).to have_current_path book_path(@user1.books.first)
       end
-      scenario "エラーが出るか" do
+      scenario "エラーメッセージが表示されるか" do
         expect(page).to have_content "Title can't be blank"
       end
     end

@@ -30,7 +30,7 @@ RSpec.describe Book, "モデルに関するテスト", type: :model do
         expect(FactoryBot.create(:book, user_id: user.id)).to be_valid
       end
     end
-    context "保存できるない場合" do
+    context "保存できない場合" do
       it "userと結びつけず保存" do
         expect(FactoryBot.build(:book)).to_not be_valid
       end

@@ -8,7 +8,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
     create_list(:book, 3, user_id: @user2.id)
   end
   feature "ログインしていない状態で" do
-    feature "リダイレクトの確認" do
+    feature "リダイレクト先の確認" do
       scenario "userの一覧ページ" do
         visit users_path
         expect(page).to have_current_path new_user_session_path
@@ -84,7 +84,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
       scenario "リダイレクト先は正しいか" do
         expect(page).to have_current_path user_path(@user1)
       end
-      scenario "サクセスメッセージが表示されているか" do
+      scenario "サクセスメッセージが表示されるか" do
         expect(page).to have_content "successfully"
       end
       scenario "画像が投稿できるか" do
@@ -108,7 +108,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
       scenario "リダイレクト先が正しいか" do
         expect(page).to have_current_path user_path(@user1)
       end
-      scenario "エラーメッセージが出るか" do
+      scenario "エラーメッセージが" do
         expect(page).to have_content "Name can't be blank"
       end
     end
