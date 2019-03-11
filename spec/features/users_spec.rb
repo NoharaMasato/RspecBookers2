@@ -108,7 +108,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
       scenario "リダイレクト先が正しいか" do
         expect(page).to have_current_path user_path(@user1)
       end
-      scenario "エラーメッセージが" do
+      scenario "エラーメッセージが表示されるか" do
         expect(page).to have_content "Name can't be blank"
       end
     end
