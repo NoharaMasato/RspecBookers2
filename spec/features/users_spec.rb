@@ -2,10 +2,8 @@ require 'rails_helper'
 
 RSpec.feature "Userに関するテスト", type: :feature do
   before do
-    @user1 = FactoryBot.create(:user)
-    @user2 = FactoryBot.create(:user)
-    create_list(:book, 3, user_id: @user1.id)
-    create_list(:book, 3, user_id: @user2.id)
+    @user1 = FactoryBot.create(:user, :create_with_books)
+    @user2 = FactoryBot.create(:user, :create_with_books)
   end
   feature "ログインしていない状態で" do
     feature "リダイレクト先の確認" do

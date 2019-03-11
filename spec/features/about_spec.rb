@@ -2,8 +2,7 @@ require 'rails_helper'
 # config.active_support.deprecation = :silenceをconfigのtest.rbに付け加える必要がある
 RSpec.feature "Homeページ、サインアップ、ログイン、ログアウトに関するテスト", type: :feature do
   before do
-    @user = FactoryBot.create(:user)
-    create_list(:book, 3, user_id: @user.id)
+    @user = FactoryBot.create(:user, :create_with_books)
   end
 
   feature "サインアップ" do
