@@ -9,10 +9,10 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
   feature "サインアップ" do
     before do
       visit new_user_registration_path
-      fill_in 'user_name', with: 'name_a'
-      fill_in 'user_email', with: 'aa@aa'
-      fill_in 'user_password', with: 'pppppp'
-      fill_in 'user_password_confirmation', with: 'pppppp'
+      find_field('user[name]').set("name_a")
+      find_field('user[email]').set("aa@aa")
+      find_field('user[password]').set("pppppp")
+      find_field('user[password_confirmation]').set("pppppp")
     end
     scenario "正しくサインアップできているか" do
       expect {
@@ -29,11 +29,13 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
       expect(page).to have_content "successfully"
     end
   end
+
   feature "ログイン" do
     before do
       visit new_user_session_path
-      fill_in 'user_name', with: @user.name
-      fill_in 'user_password', with: @user.password
+      # fill_in "user[name]",with: @user.name
+      find_field('user[name]').set(@user.name)
+      find_field('user[password]').set(@user.password)
       find("input[name='commit']").click
     end
     scenario "正しくログインして、リダイレクトされているか" do #正しくログインできていることと、リダイレクト先が合っていることを別々に調べたい

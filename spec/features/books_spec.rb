@@ -79,8 +79,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "マイページからbookを投稿" do
       before do
         visit user_path(@user1)
-        fill_in 'book_title', with: 'title_a'
-        fill_in 'book_body', with: 'body_b'
+        find_field('book[title]').set("title_a")
+        find_field('book[body]').set("body_b")
       end
       scenario "正しく保存できているか" do
         expect {
@@ -102,8 +102,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "book一覧ページからbookを投稿" do
       before do
         visit books_path
-        fill_in 'book_title', with: 'title_c'
-        fill_in 'book_body', with: 'body_d'
+        find_field('book[title]').set("title_c")
+        find_field('book[body]').set("body_d")
       end
       scenario "正しく保存できているか" do
         expect {
@@ -115,7 +115,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "有効ではない内容のbookを投稿" do
       before do
         visit user_path(@user1)
-        fill_in 'book_title', with: 'title_e'
+        find("input[name='book[title]']").set("title_e")
       end
       scenario "保存されないか" do
         expect {
@@ -136,8 +136,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
-        fill_in 'book_title', with: 'update_title_a'
-        fill_in 'book_body', with: 'update_body_b'
+        find_field('book[title]').set('update_title_a')
+        find_field('book[body]').set('update_body_b')
         find("input[name='commit']").click
       end
       scenario "本が更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
@@ -163,7 +163,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
-        fill_in 'book_title', with: nil
+        find_field('book[title]').set(nil)
         find("input[name='commit']").click
       end
       scenario "リダイレクト先は正しいか" do

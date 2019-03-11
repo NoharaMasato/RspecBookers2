@@ -73,8 +73,8 @@ RSpec.feature "Userに関するテスト", type: :feature do
     feature "自分のプロフィールの更新" do
       before do
         visit edit_user_path(@user1)
-        fill_in 'user_name', with: 'updated_name'
-        fill_in 'user_introduction', with: 'updated_inttroduction'
+        find_field('user[name]').set('updated_name')
+        find_field('user[introduction]').set('updated_inttroduction')
         find("input[name='commit']").click
       end
       scenario "userが更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
@@ -102,7 +102,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
     feature "有効ではないuserの更新" do
       before do
         visit edit_user_path(@user1)
-        fill_in 'user_name', with: nil
+        find_field('user[name]').set(nil)
         find("input[name='commit']").click
       end
       scenario "リダイレクト先が正しいか" do
