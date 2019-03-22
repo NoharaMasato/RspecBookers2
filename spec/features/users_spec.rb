@@ -28,7 +28,6 @@ RSpec.feature "Userに関するテスト", type: :feature do
     before do
       login(@user1)
     end
-    # 表示内容とリンクを分けたほうがいいかも
     feature "表示内容とリンクの確認" do
       scenario "userの一覧ページの表示内容とリンク" do
         visit users_path
@@ -56,6 +55,11 @@ RSpec.feature "Userに関するテスト", type: :feature do
         end
       end
 
+      scenario "自分の詳細ページでno-imageの画像が表示されているか" do
+        visit user_path(@user1)
+        expect(page).to have_selector "img" #画像を投稿してない状態でimgタグがあるかどうかによる判断
+      end
+
       scenario "他人の詳細ページの表示内容とリンク" do
         visit user_path(@user2)
         expect(page).to have_content @user2.name
@@ -75,7 +79,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         find_field('user[introduction]').set('updated_inttroduction')
         find("input[name='commit']").click
       end
-      scenario "userが更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
+      scenario "userが更新されているか" do
         expect(page).to have_content "updated_name"
         expect(page).to have_content "updated_inttroduction"
       end
@@ -85,9 +89,9 @@ RSpec.feature "Userに関するテスト", type: :feature do
       scenario "サクセスメッセージが表示されるか" do
         expect(page).to have_content "successfully"
       end
-      scenario "画像が投稿できるか" do
-        # キャピパラで画像を投稿するというのがあるのか
-      end
+      # scenario "画像が投稿できるか" do
+      #   # キャピパラで画像を投稿するというのがあるのか
+      # end
     end
 
     feature "他人のプロフィールの更新" do
