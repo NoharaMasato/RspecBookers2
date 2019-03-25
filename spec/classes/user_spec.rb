@@ -3,7 +3,6 @@
 require 'rails_helper'
 require "refile/file_double"
 
-
 RSpec.describe User, "モデルに関するテスト", type: :model do
   describe 'アソシエーション' do
     it "bookを複数持っている" do

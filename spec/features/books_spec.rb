@@ -68,7 +68,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to_not have_link "",href: edit_book_path(book)
         expect(page).to have_link @user2.name,href: user_path(@user2)
 
-        # expect(page).to_not have_link "",href: "/users/#{@user2.id}/edit" 他人の詳細ページでボタンは存在してしまう
+        # expect(page).to_not have_link "",href: "/users/#{@user2.id}/edit" 他人の詳細ページでボタンは存在してしまう(見本としてどうなのか)
         expect(page).to have_content @user2.name
         expect(page).to have_content @user2.introduction
       end
