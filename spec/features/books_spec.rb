@@ -1,4 +1,5 @@
 require 'rails_helper'
+require "pry"
 
 RSpec.feature "Bookに関するテスト", type: :feature do
   before do
@@ -32,7 +33,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     feature "表示内容とリンクの確認" do
       scenario "bookの一覧ページの表示内容とリンク" do
         visit books_path
-        books = @user1.books + @user2.books
+        binding.pry
+        books = Book.all
         books.each do |book|
           expect(page).to have_link book.title,href: book_path(book)
           expect(page).to have_content book.body
