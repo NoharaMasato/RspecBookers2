@@ -19,6 +19,10 @@ RSpec.describe User, "モデルに関するテスト", type: :model do
       is_expected.to validate_length_of(:name).is_at_least(2)
     end
 
+    it "nameが２0文字以上だと保存できない" do
+      is_expected.to validate_length_of(:name).is_at_most(20)
+    end
+
     it "introductionが50文字以上だと保存できない" do 
       is_expected.to validate_length_of(:introduction).is_at_most(50)
     end
