@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :book do
-    # association :master_hospital, factory: :master_hospital
     sequence(:title) { |n| "title#{n}" }
     sequence(:body) { |n| "body#{n}" }
 

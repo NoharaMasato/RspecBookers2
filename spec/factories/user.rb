@@ -4,7 +4,6 @@ FactoryBot.define do
   password = Faker::Internet.password
 
   factory :user do
-    # association :master_hospital, factory: :master_hospital
     sequence(:email) { |n| "example#{n}@test.com" }
     sequence(:name) { |n| "name#{n}" }
     sequence(:introduction) { |n| "introduction#{n}" }
