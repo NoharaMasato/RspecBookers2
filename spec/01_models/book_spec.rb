@@ -40,8 +40,8 @@ RSpec.describe Book, "モデルに関するテスト", type: :model do
       it "bodyがない" do
         expect(FactoryBot.build(:book, :no_body)).to_not be_valid
       end
-      it "bodyが201文字以上だと保存できない" do
-        expect(FactoryBot.build(:book, :body_length_exceed_max)).to_not be_valid
+      it "bodyが201文字以上" do
+        expect(FactoryBot.build(:book, :too_long_body)).to_not be_valid
       end
     end
   end

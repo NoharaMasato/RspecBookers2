@@ -33,6 +33,7 @@ RSpec.describe User, "モデルに関するテスト", type: :model do
       it "画像なし" do
         expect(FactoryBot.create(:user)).to be_valid
       end
+
       it "画像あり" do
         expect(FactoryBot.create(:user, :create_with_image)).to be_valid
       end
@@ -41,8 +42,17 @@ RSpec.describe User, "モデルに関するテスト", type: :model do
       it "名前がない" do
         expect(FactoryBot.build(:user, :no_name)).to_not be_valid
       end
+
+      it "名前が１文以下" do
+        expect(FactoryBot.build(:user, :too_short_name)).to_not be_valid
+      end
+
+      it "名前が21文字以上" do
+        expect(FactoryBot.build(:user, :too_long_name)).to_not be_valid
+      end
+
       it "自己紹介が51文字以上" do
-        expect(FactoryBot.build(:user, :introduction_length_exceed_max)).to_not be_valid
+        expect(FactoryBot.build(:user, :too_long_introduction)).to_not be_valid
       end
     end
   end

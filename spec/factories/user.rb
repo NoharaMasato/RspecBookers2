@@ -14,7 +14,15 @@ FactoryBot.define do
       name {}
     end
 
-    trait :introduction_length_exceed_max do
+    trait :too_long_name do
+      name {Faker::Lorem.characters(21)}
+    end
+
+    trait :too_short_name do
+      name {Faker::Lorem.characters(1)}
+    end
+
+    trait :too_long_introduction do
       introduction {Faker::Lorem.characters(51)}
     end
 

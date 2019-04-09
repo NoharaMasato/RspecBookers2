@@ -13,7 +13,7 @@ FactoryBot.define do
       body {}
     end
 
-    trait :body_length_exceed_max do
+    trait :too_long_body do
       body {Faker::Lorem.characters(201)}
     end
   end
