@@ -92,6 +92,14 @@ RSpec.feature "Userに関するテスト", type: :feature do
       end
     end
 
+    # feature "自分のプロフィールに画像の投稿" do
+    #   before do
+    #     visit edit_user_path(@user1)
+    #     find_field('user[name]').set('updated_name')
+    #     find("input[name='commit']").click
+    #   end
+    # end
+
     feature "他人のプロフィールの更新" do
       scenario "ページに行けず、マイページにリダイレクトされるか" do
         visit edit_user_path(@user2)
