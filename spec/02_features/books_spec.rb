@@ -53,8 +53,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content book.title
         expect(page).to have_content book.body
         expect(page).to have_link "",href: edit_book_path(book)
+        expect(all("a[data-method='delete']")[-1][:href]).to eq(book_path(@user1.books.first)) #削除ボタンがあることの確認
         expect(page).to have_link @user1.name,href: user_path(@user1)
-
         expect(page).to have_link "",href: edit_user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction
@@ -66,7 +66,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content book.title
         expect(page).to have_content book.body
         expect(page).to_not have_link "",href: edit_book_path(book)
-        # expect(page).to_not have_link "",href: book_path,data-method: "delete" #削除ボタンのあるない、のテストをどうすれば良いのか
+        expect(all("a[data-method='delete']")[-1][:href]).to_not eq(book_path(@user1.books.first)) #削除ボタンがないことの確認
         expect(page).to have_link @user2.name,href: user_path(@user2)
         expect(page).to have_content @user2.name
         expect(page).to have_content @user2.introduction
@@ -125,7 +125,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "エラーメッセージが表示されるか" do
         find("input[name='commit']").click
-        expect(page).to have_content "Body can't be blank"
+        expect(page).to have_content "error"
       end
     end
 
@@ -137,7 +137,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         find_field('book[body]').set('update_body_b')
         find("input[name='commit']").click
       end
-      scenario "本が更新されているか" do #他人の本を更新できるかどうかはrequest specでテストしている
+      scenario "本が更新されているか" do
         expect(page).to have_content "update_title_a"
         expect(page).to have_content "update_body_b"
       end
@@ -167,7 +167,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_current_path book_path(@user1.books.first)
       end
       scenario "エラーメッセージが表示されるか" do
-        expect(page).to have_content "Title can't be blank"
+        expect(page).to have_content "error"
       end
     end
 
@@ -178,11 +178,11 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "bookが削除されているか" do
         expect {
-          all("a[data-method='delete']").select{|n| n[:href] == book_path(book)}.click
+          all("a[data-method='delete']").select{|n| n[:href] == book_path(@user1.books.first)}[0].click
         }.to change(@user1.books, :count).by(-1)
       end
       scenario "リダイレクト先が正しいか" do
-        all("a[data-method='delete']").select{|n| n[:href] == book_path(book)}.click
+        all("a[data-method='delete']").select{|n| n[:href] == book_path(@user1.books.first)}[0].click
         expect(page).to have_current_path books_path
       end
     end

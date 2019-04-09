@@ -22,7 +22,6 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     scenario "リダイレクト先は正しいか" do
       find("input[name='commit']").click
       expect(page).to have_current_path user_path(User.last)
-      expect(page).to have_content "name_a"
     end
     scenario "サクセスメッセージは正しく表示されるか" do
       find("input[name='commit']").click
@@ -54,7 +53,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
       find_field('user[password]').set(@user.password)
       find("input[name='commit']").click
     end
-    scenario "正しくログインして、リダイレクトされているか" do #正しくログインできていることと、リダイレクト先が合っていることを別々に調べたい
+    scenario "正しくログインして、リダイレクトされているか" do
       expect(page).to have_current_path user_path(@user)
     end
     scenario "サクセスメッセージは正しく表示されるか" do
@@ -78,7 +77,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     before do
       login(@user)
       visit user_path(@user)
-      click_on "logout"
+      click_on "logout" #ログアウトという名前のボタンをクリックしている。これは、ヘッダーに名前指定があるため
     end
     scenario "正しくログアウトして、リダイレクトされているか" do
       expect(page).to have_current_path "/"
@@ -92,17 +91,17 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     scenario "ログイン時" do
       login(@user)
       visit root_path
-      expect(page).to have_link "",href: user_path(@user)
-      expect(page).to have_link "",href: users_path
-      expect(page).to have_link "",href: books_path
-      expect(page).to have_link "",href: destroy_user_session_path
+      expect(page).to have_link "Home",href: user_path(@user)
+      expect(page).to have_link "Users",href: users_path
+      expect(page).to have_link "Books",href: books_path
+      expect(page).to have_link "logout",href: destroy_user_session_path
     end
     scenario "ログアウト時" do
       visit root_path
-      expect(page).to have_link "",href: root_path
-      expect(page).to have_link "",href: "/home/about" #実際このルートじゃなくてもいい気がする
-      expect(page).to have_link "",href: new_user_session_path
-      expect(page).to have_link "",href: new_user_registration_path
+      expect(page).to have_link "Home",href: root_path
+      expect(page).to have_link "About",href: "/home/about" #実際このルートじゃなくてもいい気がする
+      expect(page).to have_link "login",href: new_user_session_path
+      expect(page).to have_link "sign up",href: new_user_registration_path
     end
   end
 end

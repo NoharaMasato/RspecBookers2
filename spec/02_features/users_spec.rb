@@ -33,7 +33,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         visit users_path
         expect(page).to have_link "",href: user_path(@user1)
         expect(page).to have_content @user1.name
-        expect(page).to have_content @user1.introduction #introductionはログインしているuserのみ表示される
+        expect(page).to have_content @user1.introduction
         expect(page).to have_link "",href: edit_user_path(@user1)
         expect(page).to have_link "",href: user_path(@user2)
         expect(page).to have_content @user2.name
@@ -78,11 +78,13 @@ RSpec.feature "Userに関するテスト", type: :feature do
         visit edit_user_path(@user1)
         find_field('user[name]').set('updated_name')
         find_field('user[introduction]').set('updated_inttroduction')
+        find('input[type="file"]').set(File.dirname(__FILE__) + "/../" +'files/sample.jpeg')
         find("input[name='commit']").click
       end
       scenario "userが更新されているか" do
         expect(page).to have_content "updated_name"
         expect(page).to have_content "updated_inttroduction"
+        expect(User.find(1).avatar_image_id).to be_truthy #これなぜが失敗する
       end
       scenario "リダイレクト先は正しいか" do
         expect(page).to have_current_path user_path(@user1)
@@ -91,14 +93,6 @@ RSpec.feature "Userに関するテスト", type: :feature do
         expect(page).to have_content "successfully"
       end
     end
-
-    # feature "自分のプロフィールに画像の投稿" do
-    #   before do
-    #     visit edit_user_path(@user1)
-    #     find_field('user[name]').set('updated_name')
-    #     find("input[name='commit']").click
-    #   end
-    # end
 
     feature "他人のプロフィールの更新" do
       scenario "ページに行けず、マイページにリダイレクトされるか" do
@@ -117,7 +111,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         expect(page).to have_current_path user_path(@user1)
       end
       scenario "エラーメッセージが表示されるか" do
-        expect(page).to have_content "Name can't be blank"
+        expect(page).to have_content "error"
       end
     end
   end
