@@ -5,7 +5,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     @user = FactoryBot.create(:user, :create_with_books)
   end
 
-  feature "サインアップ" do
+  feature "サインアップの確認" do
     before do
       visit new_user_registration_path
       find_field('user[name]').set("name_a")
@@ -17,6 +17,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
       expect {
         find("input[name='commit']").click
       }.to change(User, :count).by(1)
+      expect(User.last.name).to_eq("name_a")
     end
     scenario "リダイレクト先は正しいか" do
       find("input[name='commit']").click
@@ -29,7 +30,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     end
   end
 
-  feature "ログイン" do
+  feature "ログインの確認" do
     before do
       visit new_user_session_path
       # fill_in "user[name]",with: @user.name
@@ -45,7 +46,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     end
   end
 
-  feature "ログアウト" do
+  feature "ログアウトの確認" do
     before do
       login(@user)
       visit user_path(@user)
@@ -59,7 +60,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     end
   end
 
-  feature "ヘッダーのリンク" do
+  feature "ヘッダーのリンクの確認" do
     scenario "ログイン時" do
       login(@user)
       visit root_path
