@@ -13,15 +13,15 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
       find_field('user[password]').set("pppppp")
       find_field('user[password_confirmation]').set("pppppp")
     end
+
     scenario "正しくサインアップできているか" do
       expect {
         find("input[name='commit']").click
       }.to change(User, :count).by(1)
-      expect(User.last.name).to_eq("name_a")
     end
     scenario "リダイレクト先は正しいか" do
       find("input[name='commit']").click
-      expect(current_path).to match(Regexp.new("/users/[0-9]+$")) #何番のuserとして保存するかわからないため、正規表現を使用
+      expect(page).to have_current_path user_path(User.last)
       expect(page).to have_content "name_a"
     end
     scenario "サクセスメッセージは正しく表示されるか" do
@@ -30,10 +30,26 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     end
   end
 
+  feature "有効でない内容でのサインアップの確認" do
+    before do
+      visit new_user_registration_path
+      find_field('user[name]').set("")
+      find_field('user[email]').set("bb@bb")
+      find_field('user[password]').set("pppppp")
+      find_field('user[password_confirmation]').set("pppppp")
+      find("input[name='commit']").click
+    end
+    scenario "リダイレクト先は正しいか" do
+      expect(page).to have_current_path users_path
+    end
+    scenario "エラーメッセージは正しく表示されるか" do
+      expect(page).to have_content "error"
+    end
+  end
+
   feature "ログインの確認" do
     before do
       visit new_user_session_path
-      # fill_in "user[name]",with: @user.name
       find_field('user[name]').set(@user.name)
       find_field('user[password]').set(@user.password)
       find("input[name='commit']").click
@@ -43,6 +59,18 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     end
     scenario "サクセスメッセージは正しく表示されるか" do
       expect(page).to have_content "successfully"
+    end
+  end
+
+  feature "有効でない内容でのログインの確認" do
+    before do
+      visit new_user_session_path
+      find_field('user[name]').set("")
+      find_field('user[password]').set("")
+      find("input[name='commit']").click
+    end
+    scenario "リダイレクト先は正しいか" do
+      expect(page).to have_current_path new_user_session_path
     end
   end
 

@@ -66,9 +66,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content book.title
         expect(page).to have_content book.body
         expect(page).to_not have_link "",href: edit_book_path(book)
+        # expect(page).to_not have_link "",href: book_path,data-method: "delete" #削除ボタンのあるない、のテストをどうすれば良いのか
         expect(page).to have_link @user2.name,href: user_path(@user2)
-
-        # expect(page).to_not have_link "",href: "/users/#{@user2.id}/edit" 他人の詳細ページでボタンは存在してしまう(見本としてどうなのか)
         expect(page).to have_content @user2.name
         expect(page).to have_content @user2.introduction
       end
@@ -87,7 +86,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "リダイレクト先は正しいか" do
         find("input[name='commit']").click
-        expect(current_path).to match(Regexp.new("/books/[0-9]+$")) #何番のブックとして保存するかわからないため、正規表現を使用
+        expect(page).to have_current_path book_path(Book.last)
         expect(page).to have_content "title_a"
         expect(page).to have_content "body_b"
       end

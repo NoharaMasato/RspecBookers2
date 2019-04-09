@@ -34,6 +34,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         expect(page).to have_link "",href: user_path(@user1)
         expect(page).to have_content @user1.name
         expect(page).to have_content @user1.introduction #introductionはログインしているuserのみ表示される
+        expect(page).to have_link "",href: edit_user_path(@user1)
         expect(page).to have_link "",href: user_path(@user2)
         expect(page).to have_content @user2.name
       end
