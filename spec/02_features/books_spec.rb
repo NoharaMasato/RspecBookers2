@@ -178,11 +178,11 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
       scenario "bookが削除されているか" do
         expect {
-          all("a[data-method='delete']")[-1].click #データメソッドがdeleteのaタグはログアウトと削除ボタンの２つある
+          all("a[data-method='delete']").select{|n| n[:href] == book_path(book)}.click
         }.to change(@user1.books, :count).by(-1)
       end
       scenario "リダイレクト先が正しいか" do
-        all("a[data-method='delete']")[-1].click #データメソッドがdeleteのaタグはログアウトと削除ボタンの２つある
+        all("a[data-method='delete']").select{|n| n[:href] == book_path(book)}.click
         expect(page).to have_current_path books_path
       end
     end
