@@ -32,7 +32,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
   feature "有効でない内容でのサインアップの確認" do
     before do
       visit new_user_registration_path
-      find_field('user[name]').set("")
+      find_field('user[name]').set(nil)
       find_field('user[email]').set("bb@bb")
       find_field('user[password]').set("pppppp")
       find_field('user[password_confirmation]').set("pppppp")
@@ -64,8 +64,8 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
   feature "有効でない内容でのログインの確認" do
     before do
       visit new_user_session_path
-      find_field('user[name]').set("")
-      find_field('user[password]').set("")
+      find_field('user[name]').set(nil)
+      find_field('user[password]').set(nil)
       find("input[name='commit']").click
     end
     scenario "リダイレクト先は正しいか" do
@@ -77,7 +77,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     before do
       login(@user)
       visit user_path(@user)
-      click_on "logout" #ログアウトという名前のボタンをクリックしている。これは、ヘッダーに名前指定があるため
+      click_on "logout"
     end
     scenario "正しくログアウトして、リダイレクトされているか" do
       expect(page).to have_current_path "/"
@@ -99,7 +99,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     scenario "ログアウト時" do
       visit root_path
       expect(page).to have_link "Home",href: root_path
-      expect(page).to have_link "About",href: "/home/about" #実際このルートじゃなくてもいい気がする
+      expect(page).to have_link "About",href: "/home/about"
       expect(page).to have_link "login",href: new_user_session_path
       expect(page).to have_link "sign up",href: new_user_registration_path
     end

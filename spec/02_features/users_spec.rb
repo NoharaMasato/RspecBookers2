@@ -6,7 +6,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
     @user2 = FactoryBot.create(:user, :create_with_books)
   end
   feature "ログインしていない状態で" do
-    feature "リダイレクト先の確認" do
+    feature "以下のページへアクセスした際のリダイレクト先の確認" do
       scenario "userの一覧ページ" do
         visit users_path
         expect(page).to have_current_path new_user_session_path
@@ -39,7 +39,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
         expect(page).to have_content @user2.name
       end
 
-      scenario "userの一覧ページでテーブルタグを使用しているか" do
+      scenario "userの一覧ページでtableタグを使用しているか" do
         visit users_path
         expect(page).to have_selector "table"
       end
@@ -95,13 +95,13 @@ RSpec.feature "Userに関するテスト", type: :feature do
     end
 
     feature "他人のプロフィールの更新" do
-      scenario "ページに行けず、マイページにリダイレクトされるか" do
+      scenario "ページへアクセスできず、マイページにリダイレクトされるか" do
         visit edit_user_path(@user2)
         expect(page).to have_current_path user_path(@user1)
       end
     end
 
-    feature "有効ではないuserの更新" do
+    feature "有効ではない内容のuserの更新" do
       before do
         visit edit_user_path(@user1)
         find_field('user[name]').set(nil)

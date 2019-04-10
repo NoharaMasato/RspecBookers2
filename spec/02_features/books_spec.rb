@@ -6,7 +6,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     @user2 = FactoryBot.create(:user, :create_with_books)
   end
   feature "ログインしていない状態で" do
-    feature "リダイレクト先の確認" do
+    feature "以下のページへアクセスした際のリダイレクト先の確認" do
       scenario "bookの一覧ページ" do
         visit books_path
         expect(page).to have_current_path new_user_session_path
@@ -28,9 +28,8 @@ RSpec.feature "Bookに関するテスト", type: :feature do
     before do
       login(@user1)
     end
-    # 表示内容とリンクを分けたほうがいいかも
     feature "表示内容とリンクの確認" do
-      scenario "bookの一覧ページの表示内容とリンク" do
+      scenario "bookの一覧ページの表示内容とリンクは正しいか" do
         visit books_path
         books = Book.all
         books.each do |book|
@@ -42,12 +41,12 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content @user1.introduction
       end
 
-      scenario "bookの一覧ページでテーブルタグを使用しているか" do
+      scenario "bookの一覧ページでtableタグを使用しているか" do
         visit books_path
         expect(page).to have_selector "table"
       end
 
-      scenario "自分のbookの詳細ページへの表示内容とリンク" do
+      scenario "自分のbookの詳細ページへの表示内容とリンクは正しいか" do
         book = @user1.books.first
         visit book_path(book)
         expect(page).to have_content book.title
@@ -60,7 +59,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content @user1.introduction
       end
 
-      scenario "他人のbookの詳細ページへの表示内容とリンク" do
+      scenario "他人のbookの詳細ページへの表示内容とリンクは正しいか" do
         book = @user2.books.first
         visit book_path(book)
         expect(page).to have_content book.title
@@ -129,7 +128,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
     end
 
-    feature "自分のbookの更新" do
+    feature "自分が投稿したのbookの更新" do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
@@ -137,7 +136,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         find_field('book[body]').set('update_body_b')
         find("input[name='commit']").click
       end
-      scenario "本が更新されているか" do
+      scenario "bookが更新されているか" do
         expect(page).to have_content "update_title_a"
         expect(page).to have_content "update_body_b"
       end
@@ -149,14 +148,14 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
     end
 
-    feature "他人のbookの更新" do
-      scenario "ページに行けず、book一覧ページにリダイレクトされるか" do
+    feature "他人が投稿したbookの更新" do
+      scenario "編集ページへアクセスできず、book一覧ページにリダイレクトされるか" do
         visit edit_book_path(@user2.books.first)
         expect(page).to have_current_path books_path
       end
     end
 
-    feature "有効ではないbookの更新" do
+    feature "有効ではない内容のbookの更新" do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
