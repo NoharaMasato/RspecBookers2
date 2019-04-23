@@ -84,7 +84,7 @@ RSpec.feature "Userに関するテスト", type: :feature do
       scenario "userが更新されているか" do
         expect(page).to have_content "updated_name"
         expect(page).to have_content "updated_inttroduction"
-        expect(User.find(1).avatar_image_id).to be_truthy #これなぜが失敗する
+        expect(User.find(1).profile_image_id).to be_truthy
       end
       scenario "リダイレクト先は正しいか" do
         expect(page).to have_current_path user_path(@user1)
