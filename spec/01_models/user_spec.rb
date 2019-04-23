@@ -11,10 +11,6 @@ RSpec.describe User, "モデルに関するテスト", type: :model do
   end
 
   describe 'バリデーション' do
-    it "nameが空欄と保存できない" do 
-      is_expected.to validate_presence_of(:name)
-    end
-
     it "nameが２文字以下だと保存できない" do
       is_expected.to validate_length_of(:name).is_at_least(2)
     end
