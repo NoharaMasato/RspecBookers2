@@ -128,7 +128,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
       end
     end
 
-    feature "自分が投稿したのbookの更新" do
+    feature "自分が投稿したbookの更新" do
       before do
         book = @user1.books.first
         visit edit_book_path(book)
