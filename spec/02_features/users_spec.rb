@@ -77,13 +77,13 @@ RSpec.feature "Userに関するテスト", type: :feature do
       before do
         visit edit_user_path(@user1)
         find_field('user[name]').set('updated_name')
-        find_field('user[introduction]').set('updated_inttroduction')
+        find_field('user[introduction]').set('updated_introduction')
         find('input[type="file"]').set(File.dirname(__FILE__) + "/../" +'files/sample.jpeg')
         find("input[name='commit']").click
       end
       scenario "userが更新されているか" do
         expect(page).to have_content "updated_name"
-        expect(page).to have_content "updated_inttroduction"
+        expect(page).to have_content "updated_introduction"
         expect(User.find(1).profile_image_id).to be_truthy
       end
       scenario "リダイレクト先は正しいか" do
