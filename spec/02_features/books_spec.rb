@@ -46,7 +46,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_selector "table"
       end
 
-      scenario "自分のbookの詳細ページへの表示内容とリンクは正しいか" do
+      scenario "自分のbookの詳細ページでの表示内容とリンクは正しいか" do
         book = @user1.books.first
         visit book_path(book)
         expect(page).to have_content book.title
@@ -59,7 +59,7 @@ RSpec.feature "Bookに関するテスト", type: :feature do
         expect(page).to have_content @user1.introduction
       end
 
-      scenario "他人のbookの詳細ページへの表示内容とリンクは正しいか" do
+      scenario "他人のbookの詳細ページでの表示内容とリンクは正しいか" do
         book = @user2.books.first
         visit book_path(book)
         expect(page).to have_content book.title

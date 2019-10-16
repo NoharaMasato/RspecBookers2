@@ -10,20 +10,6 @@ RSpec.describe User, "モデルに関するテスト", type: :model do
     end
   end
 
-  # describe 'バリデーション' do
-  #   it "nameが２文字以下だと保存できない" do
-  #     is_expected.to validate_length_of(:name).is_at_least(2)
-  #   end
-
-  #   it "nameが２0文字以上だと保存できない" do
-  #     is_expected.to validate_length_of(:name).is_at_most(20)
-  #   end
-
-  #   it "introductionが50文字以上だと保存できない" do 
-  #     is_expected.to validate_length_of(:introduction).is_at_most(50)
-  #   end
-  # end
-
   describe '実際に保存してみる' do
     context "保存できる場合" do
       it "画像データなし" do

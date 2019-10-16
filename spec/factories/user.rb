@@ -15,15 +15,15 @@ FactoryBot.define do
     end
 
     trait :too_long_name do
-      name {Faker::Lorem.characters(21)}
+      name {Faker::Lorem.characters(number: 21)}
     end
 
     trait :too_short_name do
-      name {Faker::Lorem.characters(1)}
+      name {Faker::Lorem.characters(number: 1)}
     end
 
     trait :too_long_introduction do
-      introduction {Faker::Lorem.characters(51)}
+      introduction {Faker::Lorem.characters(number: 51)}
     end
 
     trait :create_with_image do

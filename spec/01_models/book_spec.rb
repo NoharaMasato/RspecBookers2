@@ -9,20 +9,6 @@ RSpec.describe Book, "モデルに関するテスト", type: :model do
     end
   end
 
-  # describe 'バリデーション' do
-    # it "titleが空欄だと保存できない" do 
-    #   is_expected.to validate_presence_of(:title)
-    # end
-
-    # it "bodyが空欄だと保存できない" do
-    #   is_expected.to validate_presence_of(:body)
-    # end
-
-    # it "bodyが200文字以上だと保存できない" do
-    #   is_expected.to validate_length_of(:body).is_at_most(200)
-    # end
-  # end
-
   describe '実際に保存してみる' do
     context "保存できる場合" do
       it "user_idを入れて保存" do

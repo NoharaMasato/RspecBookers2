@@ -2,7 +2,7 @@ require 'rails_helper'
 # config.active_support.deprecation = :silenceをconfigのtest.rbに付け加える必要がある
 RSpec.feature "Homeページ、サインアップ、ログイン、ログアウトに関するテスト", type: :feature do
   before do
-    @user = FactoryBot.create(:user, :create_with_books)
+    @user = FactoryBot.create(:user)
   end
 
   feature "サインアップの確認" do
@@ -64,8 +64,6 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
   feature "有効でない内容でのログインの確認" do
     before do
       visit new_user_session_path
-      find_field('user[name]').set(nil)
-      find_field('user[password]').set(nil)
       find("input[name='commit']").click
     end
     scenario "リダイレクト先は正しいか" do
@@ -77,7 +75,7 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     before do
       login(@user)
       visit user_path(@user)
-      click_on "logout"
+      all("a[data-method='delete'][href='/users/sign_out']")[0].click
     end
     scenario "正しくログアウトして、リダイレクトされているか" do
       expect(page).to have_current_path "/"
@@ -91,17 +89,18 @@ RSpec.feature "Homeページ、サインアップ、ログイン、ログアウ�
     scenario "ログイン時" do
       login(@user)
       visit root_path
-      expect(page).to have_link "Home",href: user_path(@user)
-      expect(page).to have_link "Users",href: users_path
-      expect(page).to have_link "Books",href: books_path
-      expect(page).to have_link "logout",href: destroy_user_session_path
+      expect(page).to have_link "",href: user_path(@user)
+      expect(page).to have_link "",href: users_path
+      expect(page).to have_link "",href: books_path
+      expect(page).to have_link "",href: destroy_user_session_path
     end
     scenario "ログアウト時" do
       visit root_path
-      expect(page).to have_link "Home",href: root_path
-      expect(page).to have_link "About",href: "/home/about"
-      expect(page).to have_link "login",href: new_user_session_path
-      expect(page).to have_link "sign up",href: new_user_registration_path
+      expect(page).to have_link "",href: root_path
+      expect(page).to have_link "",href: "/home/about"
+      expect(page).to have_link "",href: new_user_session_path
+      expect(page).to have_link "",href: new_user_registration_path
     end
   end
 end
+

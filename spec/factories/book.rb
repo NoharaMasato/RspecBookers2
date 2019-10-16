@@ -14,7 +14,7 @@ FactoryBot.define do
     end
 
     trait :too_long_body do
-      body {Faker::Lorem.characters(201)}
+      body {Faker::Lorem.characters(number: 201)}
     end
   end
 end
