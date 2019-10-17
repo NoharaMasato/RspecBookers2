@@ -10,24 +10,20 @@ FactoryBot.define do
     password { password }
     password_confirmation { password }
 
-    trait :no_name do
-      name {}
-    end
-
     trait :too_long_name do
-      name {Faker::Lorem.characters(number: 21)}
+      name { Faker::Lorem.characters(number: 21) }
     end
 
     trait :too_short_name do
-      name {Faker::Lorem.characters(number: 1)}
+      name { Faker::Lorem.characters(number: 1) }
     end
 
     trait :too_long_introduction do
-      introduction {Faker::Lorem.characters(number: 51)}
+      introduction { Faker::Lorem.characters(number: 51) }
     end
 
     trait :create_with_image do
-      profile_image {Refile::FileDouble.new("dummy", "logo.png", content_type: "image/png")}
+      profile_image { Refile::FileDouble.new("dummy", "logo.png", content_type: "image/png") }
     end
 
     trait :create_with_books do
