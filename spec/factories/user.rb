@@ -23,7 +23,7 @@ FactoryBot.define do
     end
 
     trait :create_with_image do
-      profile_image { Refile::FileDouble.new("dummy", "logo.png", content_type: "image/png") }
+      profile_image { Refile::FileDouble.new('dummy', 'logo.png', content_type: 'image/png') }
     end
 
     trait :create_with_books do

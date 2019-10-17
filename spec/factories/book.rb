@@ -6,7 +6,7 @@ FactoryBot.define do
     sequence(:body) { |n| "body#{n}" }
 
     trait :too_long_body do
-      body {Faker::Lorem.characters(number: 201)}
+      body { Faker::Lorem.characters(number: 201) }
     end
   end
 end
