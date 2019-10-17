@@ -21,10 +21,10 @@ RSpec.describe Book, "モデルに関するテスト", type: :model do
         expect(FactoryBot.build(:book)).to_not be_valid
       end
       it "titleが空欄" do
-        expect(FactoryBot.build(:book, :no_title)).to_not be_valid
+        expect(FactoryBot.build(:book, title: nil)).to_not be_valid
       end
       it "bodyが空欄" do
-        expect(FactoryBot.build(:book, :no_body)).to_not be_valid
+        expect(FactoryBot.build(:book, body: nil)).to_not be_valid
       end
       it "bodyが201文字以上" do
         expect(FactoryBot.build(:book, :too_long_body)).to_not be_valid
