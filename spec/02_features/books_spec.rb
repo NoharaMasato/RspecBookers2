@@ -188,6 +188,10 @@ RSpec.feature 'Bookに関するテスト', type: :feature do
         all("a[data-method='delete']").select { |n| n[:href] == book_path(@user1.books.first) }[0].click
         expect(page).to have_current_path books_path
       end
+      scenario 'サクセスメッセージは正しく表示されるか' do
+        all("a[data-method='delete']").select { |n| n[:href] == book_path(Book.first) }[0].click
+        expect(page).to have_content 'successfully'
+      end
     end
   end
 end
