@@ -1,0 +1,26 @@
+version: 2
+jobs:
+	build:
+    parallelism: 6
+    steps:
+      - checkout
+      - *install_chrome
+      - *restore_db_bundle
+      - *run_db_bundle
+      - *store_db_bundle
+      - *run_db_create
+      - *run_db_apply
+      - run:
+          name: create other database
+          working_directory: a-cms
+          command: |
+            sudo apt update
+            sudo apt-get install default-mysql-client
+            mysql -u root -h 127.0.0.1 -e 'SOURCE lib/integration_script/create_other_db.sql'
+      - run:
+          name: RSpec
+          working_directory: a-cms
+          command: bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) -f d
+      - store_test_results:
+          path: test-results
+
