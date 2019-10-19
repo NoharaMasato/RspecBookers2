@@ -67,7 +67,9 @@ RSpec.feature 'Bookに関するテスト', type: :feature do
         expect(page).to have_content book.title
         expect(page).to have_content book.body
         expect(page).to_not have_link '', href: edit_book_path(book)
-        expect(all("a[data-method='delete']")[-1][:href]).to_not eq(book_path(@user1.books.first)) # 削除ボタンがないことの確認
+        if all("a[data-method='delete']").any?
+          expect(all("a[data-method='delete']")[-1][:href]).to_not eq(book_path(@user1.books.first)) # 削除ボタンがないことの確認
+        end
         expect(page).to have_link @user2.name, href: user_path(@user2)
         expect(page).to have_content @user2.name
         expect(page).to have_content @user2.introduction
